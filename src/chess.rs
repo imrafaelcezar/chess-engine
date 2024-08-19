@@ -1,3 +1,5 @@
+pub mod utils;
+
 pub struct Chess {
     pub board: [Piece; 64],
     pub side_to_move: Side,
@@ -12,7 +14,7 @@ impl Chess {
     }
 }
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Side {
     White,
     Black,
@@ -28,6 +30,10 @@ pub struct Piece {
 impl Piece {
     pub fn new(side: Side, kind: PieceKind) -> Piece {
         Piece { side, kind }
+    }
+
+    pub fn is_side(&self, side: Side) -> bool {
+        return self.side == side;
     }
 }
 

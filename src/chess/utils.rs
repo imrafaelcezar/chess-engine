@@ -1,4 +1,4 @@
-use crate::chess::{Chess, Piece, PieceKind, Side};
+use super::{Chess, Piece, PieceKind, Side};
 
 pub fn load_position_from_fen(fen: &str) -> Chess {
     let mut fen = fen.split(" ");
@@ -20,7 +20,7 @@ pub fn load_position_from_fen(fen: &str) -> Chess {
                 aux += num;
             }
             Err(..) => {
-                board[aux] = get_piece_kind_for_char(c);
+                board[aux] = get_piece_by_char(c);
 
                 if c != '/' {
                     aux += 1
@@ -32,7 +32,7 @@ pub fn load_position_from_fen(fen: &str) -> Chess {
     Chess::new(board, side_to_move)
 }
 
-fn get_piece_kind_for_char(c: char) -> Piece {
+fn get_piece_by_char(c: char) -> Piece {
     match c {
         'P' => Piece::new(Side::White, PieceKind::Pawn),
         'N' => Piece::new(Side::White, PieceKind::Knight),

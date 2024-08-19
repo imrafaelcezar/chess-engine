@@ -1,8 +1,10 @@
 mod chess;
-mod chess_utils;
+mod ui;
+
+use chess::utils::load_position_from_fen;
+use ui::board::show_board;
 
 fn main() {
-    let chess =
-        chess_utils::load_position_from_fen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w");
-    println!("{:?}", chess.board);
+    let chess = load_position_from_fen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w");
+    show_board(&chess.board);
 }
