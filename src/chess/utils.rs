@@ -1,3 +1,5 @@
+use std::ops::{Add, Sub};
+
 use super::{Chess, Piece, PieceKind, Side};
 
 pub fn load_position_from_fen(fen: &str) -> Chess {
@@ -48,4 +50,36 @@ fn get_piece_by_char(c: char) -> Piece {
         'k' => Piece::new(Side::Black, PieceKind::King),
         _ => Piece::new(Side::None, PieceKind::Empty),
     }
+}
+
+pub fn get_move_by_semi_algebraic_notation(algebraic_notation: String) -> (usize, usize) {
+    // e2e4
+    let start = &algebraic_notation[..2]; // e2
+    let target = &algebraic_notation[2..]; // e4
+
+    (
+        get_square_by_semi_algebraic_notation(start),
+        get_square_by_semi_algebraic_notation(target),
+    )
+}
+
+fn get_square_by_semi_algebraic_notation(algebraic_notation: &str) -> usize {
+    let letter = &algebraic_notation[..1];
+    let number = &algebraic_notation[1..];
+    println!("{number}");
+    let number: usize = number.parse().expect("Invalid algebraic notation");
+
+    match letter {
+        "a" => 1,
+        "b" => 2,
+        "c" => 3,
+        "d" => 4,
+        "e" => 5,
+        "f" => 6,
+        "g" => 7,
+        "h" => 8,
+        _ => 0,
+    }
+    .add((8 - number) * 8)
+    .sub(1)
 }

@@ -12,6 +12,25 @@ impl Chess {
             side_to_move,
         }
     }
+
+    pub fn mov(&mut self, mov: (usize, usize)) {
+        let (start, target) = mov;
+        let start_piece = self.board[start];
+
+        if start == target || !start_piece.is_side(self.side_to_move) || start_piece.is_empty() {
+            println!("Invalid move.");
+            return;
+        }
+
+        self.board[target] = start_piece;
+        self.board[start] = Piece::new(Side::None, PieceKind::Empty);
+
+        self.side_to_move = if let Side::White = self.side_to_move {
+            Side::Black
+        } else {
+            Side::White
+        };
+    }
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -32,12 +51,16 @@ impl Piece {
         Piece { side, kind }
     }
 
+    pub fn is_empty(&self) -> bool {
+        return self.side == Side::None || self.kind == PieceKind::Empty;
+    }
+
     pub fn is_side(&self, side: Side) -> bool {
         return self.side == side;
     }
 }
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum PieceKind {
     Pawn,
     Knight,
